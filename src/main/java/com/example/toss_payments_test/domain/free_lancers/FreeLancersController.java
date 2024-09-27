@@ -2,7 +2,11 @@ package com.example.toss_payments_test.domain.free_lancers;
 
 import com.example.toss_payments_test.domain.free_lancers.response.FreeLancersListResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -14,13 +18,9 @@ public class FreeLancersController {
 
 
     @GetMapping()
-    List<FreeLancersListResponse> findMany(
-            @RequestParam("page") Integer page,
-            @RequestParam("size") Integer size,
-            @RequestParam("sortBy") String sortBy
-    ) {
+    List<FreeLancersListResponse> findMany(Pageable pageable) {
 
-        return service.findMany(page, size, sortBy);
+        return service.findMany(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
     }
 
     @GetMapping("/{id}")
